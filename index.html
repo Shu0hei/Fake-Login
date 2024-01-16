@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fake Login</title>
+    <style>
+      #root {
+        background-color: skyblue;
+        color: white;
+        font-size: 2em;
+        text-align: center;
+        height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Ini konten kita -->
+    <div id="root">
+      <input type="text" placeholder="username" id="usernameInput" />
+      <input type="password" placeholder="password" id="passwordInput" />
+      <input type="text" placeholder="role" id="roleInput" />
+      <button onclick="onLogin()" id="loginButton">Login</button>
+      <button onclick="onLogout()" id="logoutButton">Logout</button>
+      <button onclick="onRegister()" id="registerButton">Register</button>
+      <input type="text" placeholder="username" id="usernameRegister" />
+      <input type="password" placeholder="password" id="passwordRegister" />
+      <input type="text" placeholder="role" id="roleRegister" />
+      <br />
+      <br />
+      <h1 id="admin">Login Sebagai Admin</h1>
+      <h1 id="basic">Login Sebagai User</h1>
+      <h1 id="worker">Login Sebagai Worker</h1>
+    </div>
+
+    <script type="application/javascript">
+      let root = document.getElementById("root");
+      let usernameInput = document.getElementById("usernameInput");
+      let passwordInput = document.getElementById("passwordInput");
+      let roleInput = document.getElementById("roleInput");
+      let usernameRegister = document.getElementById("usernameRegister");
+      let passwordRegister = document.getElementById("passwordRegister");
+      let roleRegister = document.getElementById("roleRegister");
+      let loginButton = document.getElementById("loginButton");
+      let logoutButton = document.getElementById("logoutButton");
+      let registerButton = document.getElementById("registerButton");
+      let admin = document.getElementById("admin");
+      let basic = document.getElementById("basic");
+      let worker = document.getElementById("worker");
+
+      admin.style.display = "none";
+      basic.style.display = "none";
+      worker.style.display = "none";
+      usernameRegister.style.display = "none";
+      passwordRegister.style.display = "none";
+      roleRegister.style.display = "none";
+      logoutButton.style.display = "none";
+
+      function onLogin() {
+        logoutButton.style.display = "block";
+
+        if (
+          localStorage.getItem("username") == usernameInput.value &&
+          localStorage.getItem("password") == passwordInput.value &&
+          localStorage.getItem("role") == "admin"
+        ) {
+          usernameInput.style.display = "none";
+          passwordInput.style.display = "none";
+          loginButton.style.display = "none";
+          roleInput.style.display = "none";
+          registerButton.style.display = "none";
+          localStorage.setItem("role", "admin");
+          localStorage.setItem("login", "yes");
+          admin.style.display = "block";
+          basic.style.display = "none";
+          worker.style.display = "none";
+          root.style.backgroundColor = "lime";
+        } else if (
+          localStorage.getItem("username") == usernameInput.value &&
+          localStorage.getItem("password") == passwordInput.value &&
+          localStorage.getItem("role") == "worker"
+        ) {
+          usernameInput.style.display = "none";
+          passwordInput.style.display = "none";
+          loginButton.style.display = "none";
+          roleInput.style.display = "none";
+          registerButton.style.display = "none";
+          localStorage.setItem("role", "worker");
+          localStorage.setItem("login", "yes");
+          admin.style.display = "none";
+          basic.style.display = "none";
+          worker.style.display = "block";
+          root.style.backgroundColor = "pink";
+        } else if (
+          localStorage.getItem("username") == usernameInput.value &&
+          localStorage.getItem("password") == passwordInput.value &&
+          localStorage.getItem("role") == "user"
+        ) {
+          usernameInput.style.display = "none";
+          passwordInput.style.display = "none";
+          loginButton.style.display = "none";
+          roleInput.style.display = "none";
+          registerButton.style.display = "none";
+          localStorage.setItem("role", "user");
+          localStorage.setItem("login", "yes");
+          admin.style.display = "none";
+          basic.style.display = "block";
+          worker.style.display = "none";
+          root.style.backgroundColor = "purple";
+        } else {
+          alert("Username, Password atau Role anda salah!");
+          logoutButton.style.display = "none";
+        }
+      }
+
+      function onLogout() {
+        localStorage.clear();
+        location.reload();
+      }
+
+      function onRegister() {
+        usernameInput.style.display = "none";
+        passwordInput.style.display = "none";
+        loginButton.style.display = "none";
+        roleInput.style.display = "none";
+        usernameRegister.style.display = "block";
+        passwordRegister.style.display = "block";
+        roleRegister.style.display = "block";
+
+        localStorage.setItem("username", usernameRegister.value);
+        localStorage.setItem("password", passwordRegister.value);
+        localStorage.setItem("role", roleRegister.value);
+
+        if (
+          roleRegister.value == "user" ||
+          roleRegister.value == "worker" ||
+          roleRegister.value == "admin"
+        ) {
+          location.reload();
+        } else {
+          alert("Masukan role yang sesuai (User, Admin, Worker)");
+        }
+      }
+
+      if (localStorage.getItem("login")) {
+        usernameInput.style.display = "none";
+        passwordInput.style.display = "none";
+        loginButton.style.display = "none";
+        roleInput.style.display = "none";
+        registerButton.style.display = "none";
+        logoutButton.style.display = "block";
+        if (localStorage.getItem("role") == "worker") {
+          admin.style.display = "none";
+          basic.style.display = "none";
+          worker.style.display = "block";
+          root.style.backgroundColor = "pink";
+        } else if (localStorage.getItem("role") == "admin") {
+          admin.style.display = "block";
+          basic.style.display = "none";
+          worker.style.display = "none";
+          root.style.backgroundColor = "lime";
+        } else if (localStorage.getItem("role") == "user") {
+          admin.style.display = "none";
+          basic.style.display = "block";
+          worker.style.display = "none";
+          root.style.backgroundColor = "purple";
+        } else {
+          alert("salah di localstorage");
+        }
+      }
+    </script>
+  </body>
+</html>
